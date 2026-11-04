@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Rețe | Robotics Software Engineer</title>
+<meta name="description" content="Robotics software engineer building perception, mapping and sensor fusion for robots that work at sea. ROS 2, C++, Python, field-deployed across four sea-trial campaigns.">
+<meta property="og:title" content="David Rețe | Robotics Software Engineer">
+<meta property="og:description" content="Perception, mapping and sensor fusion for robots that work at sea.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://retedavid.github.io/">
+<meta property="og:image" content="https://retedavid.github.io/assets/img/seacat-dubrovnik.jpg">
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css?v=4">
+</head>
+<body>
+
+<nav class="nav wrap" aria-label="Main">
+  <a class="nav-name" href="#top">David Rețe</a>
+  <div class="nav-links">
+    <a href="#demo">Demo</a>
+    <a href="#seaclear">SeaClear</a>
+    <a href="#field">Field</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main id="top">
+
+<header class="hero wrap">
+  <div class="hero-text">
+    <p class="label hero-role">Robotics Software Engineer</p>
+    <h1>Perception, mapping and sensor fusion for robots that work at sea.</h1>
+    <p class="lede">I'm David. For three years I've built and field-deployed multi-sensor 3D mapping pipelines for <a href="https://www.seaclear2.eu/">SeaClear 2.0</a>, a Horizon Europe project where a team of autonomous robots finds and collects litter from the seafloor. I own the stack from mapping and sensor-fusion code to live operation on and under the water.</p>
+    <div class="actions">
+      <a class="btn btn-solid" href="assets/David_Rete_CV.pdf">Download CV</a>
+      <a class="btn" href="https://github.com/ReteDavid">GitHub</a>
+      <a class="btn" href="https://linkedin.com/in/david-rete-503790193">LinkedIn</a>
+      <a class="btn" href="mailto:dvdrete@gmail.com">Email</a>
+    </div>
+    <p class="route"><span>Dubrovnik</span><span>Marseille</span><span>Hamburg</span><span>Tarragona</span></p>
+  </div>
+  <figure class="hero-img">
+    <img src="assets/img/seacat-dubrovnik.jpg" width="1350" height="1800" alt="The yellow SeaCAT surface vessel on turquoise water, with a grapple hanging from its crane and a drone on its landing deck.">
+    <figcaption>Part of the SeaClear 2.0 system, Dubrovnik.</figcaption>
+  </figure>
+</header>
+
+<section id="demo" class="band">
+  <div class="wrap">
+    <p class="label">Demo</p>
+    <h2>From a sonar ping to a mark on the map</h2>
+    <p class="sub">My mapping stack running during the public demo in Tarragona, October 2026.</p>
+    <video class="demo" autoplay muted loop playsinline preload="metadata" poster="assets/img/demo-poster.jpg" width="1600" height="656" aria-label="Screen recording: a sonar image with a detected trash box, a 3D voxel map gaining red marks, and a satellite map of the harbour.">
+      <source src="assets/video/tarragona-demo.mp4" type="video/mp4">
+    </video>
+    <ol class="legend">
+      <li><b>Sonar, left.</b> A detector runs on the multibeam stream and boxes litter candidates.</li>
+      <li><b>3D map, top right.</b> Each detection is ray-cast into an OctoMap of the seabed. Mapped objects appear in red.</li>
+      <li><b>Position, bottom right.</b> The same scene in GPS coordinates over satellite imagery of the harbour.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="seaclear" class="wrap section">
+  <p class="label">SeaClear 2.0</p>
+  <h2>Mapping is how the grapple knows where to go</h2>
+  <div class="two">
+    <p>Litter on the seafloor is hard to find and harder to pick up. Water visibility can be poor, sonar is noisy, and a recovery robot needs a coordinate it can act on, not just an image. SeaClear 2.0 is an EU-funded consortium coordinated by TU Delft, and my group at the Technical University of Cluj-Napoca works on the mapping.</p>
+    <p>I built the C++/ROS&nbsp;2 pipeline that turns camera and sonar detections into a 3D map, clusters them into objects, and serves their GPS coordinates to TU München's grapple system for autonomous retrieval. Latency-critical ray-casting runs in C++. Detection, sensor bridging, georeferencing and operator services run in Python, so we can change them quickly in the field.</p>
+  </div>
+
+  <ol class="pipeline" aria-label="Mapping pipeline stages">
+    <li>
+      <span class="step">Sense</span>
+      <p>Oculus multibeam sonar, IP camera, Waterlinked A50 DVL, IMU and SBL acoustic positioning, with EKF-fused odometry.</p>
+    </li>
+    <li>
+      <span class="step">Detect</span>
+      <p>ONNX inference on live camera and sonar streams, with an auto/manual mode service for operators.</p>
+    </li>
+    <li>
+      <span class="step">Map</span>
+      <p>Occlusion-aware ray-casting into a 3D OctoMap, in C++.</p>
+    </li>
+    <li>
+      <span class="step">Locate</span>
+      <p>Clustering into litter objects, georeferenced from ENU to WGS84.</p>
+    </li>
+    <li class="last">
+      <span class="step">Retrieve</span>
+      <p>GPS coordinates served to the grapple for autonomous pickup.</p>
+    </li>
+  </ol>
+</section>
+
+<section id="field" class="wrap section">
+  <p class="label">In the field</p>
+  <h2>Four sea-trial campaigns, one Docker stack</h2>
+  <p class="sub">The stack runs as a multi-container ROS&nbsp;2 Jazzy system, live on the vessel, in Croatia, France, Germany and Spain.</p>
+  <div class="gallery">
+    <figure class="g-video">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/img/grapple-poster.jpg" width="480" height="750" aria-label="Video: the grapple comes up out of the water with a car seat, beside the SeaCAT vessel.">
+        <source src="assets/video/grapple-recovery.mp4" type="video/mp4">
+      </video>
+      <figcaption>The grapple coming up with a car seat, Marseille.</figcaption>
+    </figure>
+    <figure class="g-wide">
+      <img loading="lazy" src="assets/img/command-center.jpg" width="1218" height="1500" alt="David smiling at a yellow operator console under a tent, with cables and monitors around him. Other people's faces are blurred.">
+      <figcaption>At the command center during the public demo, Tarragona.</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="assets/img/grapple-tarragona.jpg" width="900" height="1600" alt="The SeaCAT crane holding a grapple that has lifted a shopping cart out of the harbour, with large yachts behind.">
+      <figcaption>A shopping cart recovered by the grapple, Tarragona.</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="assets/img/fleet-marseille.jpg" width="1200" height="1600" alt="The SeaCAT and the orange SeaDragon vessels moored by a breakwater, with the yellow MiniTortuga ROV visible just under the surface.">
+      <figcaption>SeaCAT, SeaDragon and the MiniTortuga ROV just under the surface, Marseille.</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="assets/img/grapple-marseille.jpg" width="1200" height="1600" alt="The grapple holding a dripping car seat retrieved from the seabed, beside SeaCAT.">
+      <figcaption>A car seat retrieved from the seabed, Marseille.</figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="assets/img/david-dock.jpg" width="1467" height="1500" alt="David on the quay in a blue SeaClear vest, with the orange SeaDragon vessel behind him. The other person's face is blurred.">
+      <figcaption>On the quay with the SeaDragon, Tarragona.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="work" class="wrap section">
+  <p class="label">Selected work</p>
+  <h2>What I've built</h2>
+  <div class="work">
+    <article>
+      <h3>Camera and sonar mapping</h3>
+      <p>The core detection-to-map pipeline: camera and sonar detections projected into a 3D OctoMap, clustered and served as GPS coordinates. Evaluated with Python tooling (NumPy, rosbag2 replay, pymap3d) against GPS-surveyed ground truth.</p>
+      <p class="tags">C++ · ROS 2 · OctoMap · Python</p>
+    </article>
+    <article>
+      <h3>Active mapping with camera-sonar fusion</h3>
+      <p>A forward-looking sonar and a camera feed one shared Bayesian occupancy map, and at each step an optimization picks the next best view, balancing exploration of uncertain regions against confirmation of likely objects. Each sensor is modeled with range- and bearing-dependent detection and false-alarm tables determined from data. In a realistic underwater simulator, active mapping found objects faster than a lawnmower pattern, and using both sensors worked better than either alone. <a href="https://doi.org/10.1109/AQTR70159.2026.11577897">Paper</a></p>
+      <p class="tags">Next best view · Bayesian occupancy mapping · Simulation</p>
+    </article>
+    <article>
+      <h3>Probabilistic mapping and active search</h3>
+      <p>Log-odds occupancy mapping of sonar detections, plus an information-driven next-best-view planner with sonar footprint, geofence and bathymetry safety constraints. Validated in closed-loop simulation.</p>
+      <p class="tags">Planning · Occupancy mapping · Simulation</p>
+    </article>
+    <article>
+      <h3>Perception and operator tooling</h3>
+      <p>Python inference nodes running ONNX models on live streams, Foxglove Studio bridges, live voxel-map visualization and image-annotation panels, so operators can watch the map and mark objects during a mission.</p>
+      <p class="tags">ONNX Runtime · Foxglove · rclpy</p>
+    </article>
+    <article>
+      <h3>Debugging on the water</h3>
+      <p>Failures that only show up at sea, fixed during live trials: a TF frame race that mirrored sonar detections, a Fast DDS shared-memory transport issue between Docker containers, a bounding-box scaling bug in detection post-processing, and many more.</p>
+      <p class="tags">TF2 · Fast DDS · Docker</p>
+    </article>
+    <article>
+      <h3>BlueROV2 platform for underwater mapping</h3>
+      <p>A low-cost lab platform for developing and validating underwater mapping, with the ROV and test objects in a pool imaged by an overhead camera. Pose comes from extended Kalman filtering of overhead-camera, inertial and pressure measurements, and a deep neural network detects litter in the ROV camera stream. <a href="https://github.com/ReteDavid/IFAC-2024">Code</a> · <a href="https://doi.org/10.1016/j.ifacol.2024.10.098">Paper</a></p>
+      <p class="tags">ROS · EKF · YOLO · Python</p>
+    </article>
+    <article>
+      <h3>LQR control for a BlueROV2</h3>
+      <p>My BSc thesis: LQR stabilization and trajectory tracking for a BlueROV2, implemented and validated in MATLAB/Simulink.</p>
+      <p class="tags">Control · MATLAB/Simulink</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap section split">
+  <div>
+    <p class="label">Publications</p>
+    <p class="paper"><b>Active Mapping of Underwater Litter Using Camera-Sonar Fusion</b><br>David Rețe, P. Boroș, L. Bușoniu. IEEE International Conference on Automation, Quality and Testing, Robotics (AQTR), 2026.<br><a href="https://doi.org/10.1109/AQTR70159.2026.11577897">doi: 10.1109/AQTR70159.2026.11577897</a></p>
+    <p class="paper"><b>A BlueROV2-based platform for underwater mapping experiments</b><br>T. Alinei-Poiană, David Rețe, D. Martinovici, V.-M. Maer, L. Bușoniu. IFAC-PapersOnLine, vol. 58, no. 20, pp. 470–475, 2024 (15th IFAC CAMS).<br><a href="https://doi.org/10.1016/j.ifacol.2024.10.098">doi: 10.1016/j.ifacol.2024.10.098</a></p>
+    <p class="label edu-label">Education</p>
+    <p class="paper"><b>MSc and BSc in Systems Engineering</b><br>Technical University of Cluj-Napoca, Faculty of Automation and Computer Science, taught in English.</p>
+  </div>
+  <div>
+    <p class="label">Tools</p>
+    <dl class="skills">
+      <dt>Languages</dt><dd>Modern C++ (17/20), Python, MATLAB/Simulink, Bash</dd>
+      <dt>Robotics</dt><dd>ROS 2 Jazzy, TF2, Fast DDS, OctoMap, rosbag tooling</dd>
+      <dt>Perception</dt><dd>OpenCV, ONNX Runtime, camera calibration, multibeam sonar processing</dd>
+      <dt>Control</dt><dd>LQR, PID, EKF</dd>
+      <dt>Systems</dt><dd>Linux, Docker, GitLab CI/CD, GStreamer/RTSP, Foxglove, RViz</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="contact" class="band contact">
+  <div class="wrap">
+    <h2>Building robots that have to work outside the lab?</h2>
+    <p class="sub">I'd like to hear about it.</p>
+    <div class="actions">
+      <a class="btn btn-solid" href="mailto:dvdrete@gmail.com">dvdrete@gmail.com</a>
+      <a class="btn btn-light" href="https://linkedin.com/in/david-rete-503790193">LinkedIn</a>
+      <a class="btn btn-light" href="https://github.com/ReteDavid">GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap foot">
+  <p>David Rețe, Cluj-Napoca, Romania. This is my personal site, not an official project page. <a href="https://www.seaclear2.eu/">SeaClear 2.0</a> is co-funded by the European Union under Horizon Europe. Satellite imagery in the demo: © Esri, Maxar, Earthstar Geographics and the GIS User Community.</p>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
